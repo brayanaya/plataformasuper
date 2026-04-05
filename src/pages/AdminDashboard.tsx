@@ -1,9 +1,9 @@
-﻿import { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { supabase } from '../services/supabase'
 import { useNavigate } from 'react-router-dom'
 
 export default function AdminDashboard() {
-  const [user, setUser] = useState(null)
+  const [, setUser] = useState(null)
   const navigate = useNavigate()
 
   useEffect(() => {
