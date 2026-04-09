@@ -1,4 +1,4 @@
-﻿import { useState, useEffect } from 'react'
+import { useState, useEffect } from 'react'
 import { supabase } from '../services/supabase'
 import { useNavigate } from 'react-router-dom'
 
@@ -29,7 +29,7 @@ export default function AdminProductos() {
   }
 
   const handleSubir = async () => {
-    if (!nombre || !precio) return setMensaje('Nombre y precio son obligatorios')
+    if (!nombre || !precio || !categoriaId) return setMensaje("Nombre, precio y categoria son obligatorios")
     setLoading(true)
     let imagen_url = null
     if (archivo) {
@@ -77,7 +77,7 @@ export default function AdminProductos() {
             <input type="text" placeholder="Nombre del producto" value={nombre} onChange={(e) => setNombre(e.target.value)} className="border border-gray-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-red-700" />
             <input type="number" placeholder="Precio" value={precio} onChange={(e) => setPrecio(e.target.value)} className="border border-gray-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-red-700" />
             <select value={categoriaId} onChange={(e) => setCategoriaId(e.target.value)} className="border border-gray-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-red-700">
-              <option value="">Sin categoria</option>
+              <option value="" disabled>Selecciona una categoria</option>
               {categorias.map((c) => (
                 <option key={c.id} value={c.id}>{c.nombre}</option>
               ))}
