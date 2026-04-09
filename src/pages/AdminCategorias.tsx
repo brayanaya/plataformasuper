@@ -29,6 +29,7 @@ export default function AdminCategorias() {
   }
 
   return (
+    
     <div className="min-h-screen bg-gray-100">
       <nav className="bg-red-700 text-white px-6 py-4 flex items-center justify-between shadow-lg">
         <div className="flex items-center gap-3">
