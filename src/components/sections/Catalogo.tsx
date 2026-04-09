@@ -54,14 +54,14 @@ export default function Catalogo() {
   const scrollRight = () => scrollRef.current.scrollBy({ left: 150, behavior: "smooth" })
 
   return (
-    <section id="catalogo" className="min-h-screen bg-white py-16 px-6">
+    <section id="catalogo" className="bg-white py-12 px-4 md:px-6">
       <div className="max-w-6xl mx-auto">
-        <div className="text-center mb-12">
-          <h2 className="text-3xl md:text-4xl font-extrabold text-red-700">Catalogo</h2>
-          <p className="text-gray-500 mt-2 text-sm md:text-base">Encuentra todo lo que necesitas</p>
-          <div className="w-16 h-1 bg-yellow-400 mx-auto mt-4 rounded-full" />
+        <div className="text-center mb-10">
+          <h2 className="text-2xl md:text-4xl font-extrabold text-red-700">Catalogo</h2>
+          <p className="text-gray-500 mt-2 text-xs md:text-base">Encuentra todo lo que necesitas</p>
+          <div className="w-12 h-1 bg-yellow-400 mx-auto mt-3 rounded-full" />
         </div>
-        <div className="flex items-center gap-2 mb-10">
+        <div className="flex items-center gap-2 mb-8">
           <button onClick={scrollLeft} className="flex-shrink-0 w-8 h-8 rounded-full bg-white shadow border border-gray-200 flex items-center justify-center text-red-700 font-bold hover:bg-red-50 transition">
             &#8249;
           </button>
@@ -79,22 +79,22 @@ export default function Catalogo() {
         ) : productosFiltrados.length === 0 ? (
           <div className="text-center text-gray-400 py-20">No hay productos disponibles</div>
         ) : (
-          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-6">
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 md:gap-6">
             {productosFiltrados.map((p) => (
               <div key={p.id} className="bg-gray-50 rounded-2xl shadow-sm overflow-hidden hover:shadow-md transition">
                 {p.imagen_url ? (
-                  <img src={p.imagen_url} alt={p.nombre} className="w-full h-40 object-cover" />
+                  <img src={p.imagen_url} alt={p.nombre} className="w-full h-32 md:h-40 object-cover" />
                 ) : (
-                  <div className="w-full h-40 bg-gray-200 flex items-center justify-center">
+                  <div className="w-full h-32 md:h-40 bg-gray-200 flex items-center justify-center">
                     <span className="text-gray-400 text-xs">Sin imagen</span>
                   </div>
                 )}
-                <div className="p-3">
-                  <h3 className="font-bold text-gray-800 text-sm">{p.nombre}</h3>
-                  {p.categorias && <p className="text-gray-400 text-xs mt-1">{p.categorias.nombre}</p>}
-                  <p className="text-red-700 font-extrabold mt-1 text-base">${p.precio.toLocaleString()}</p>
+                <div className="p-2 md:p-3">
+                  <h3 className="font-bold text-gray-800 text-xs md:text-sm leading-tight">{p.nombre}</h3>
+                  {p.categorias && <p className="text-gray-400 text-xs mt-0.5">{p.categorias.nombre}</p>}
+                  <p className="text-red-700 font-extrabold mt-1 text-sm md:text-base">${p.precio.toLocaleString()}</p>
                   <button onClick={() => handleAgregar(p)} className={btnClass(p.id)}>
-                    {agregados[p.id] ? "Agregado!" : "Agregar al carrito"}
+                    {agregados[p.id] ? "Agregado!" : "Agregar"}
                   </button>
                 </div>
               </div>
