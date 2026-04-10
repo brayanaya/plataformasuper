@@ -1,4 +1,14 @@
 export default function Contacto() {
+  const handleEnviar = () => {
+    const nombre = document.getElementById("nombre").value
+    const telefono = document.getElementById("telefono").value
+    const mensaje = document.getElementById("mensaje").value
+    if (!nombre || !telefono || !mensaje) return alert("Por favor completa todos los campos")
+    const texto = "Hola, soy " + nombre + " (Tel: " + telefono + "). " + mensaje
+    const url = "https://wa.me/573226937375?text=" + encodeURIComponent(texto)
+    window.open(url, "_blank")
+  }
+
   return (
     <section id="contacto" className="bg-white py-16 px-4 md:px-6">
       <div className="max-w-5xl mx-auto">
@@ -45,21 +55,16 @@ export default function Contacto() {
           </div>
           <div className="flex flex-col gap-4" data-aos="fade-left">
             <div className="rounded-2xl overflow-hidden shadow-sm">
-              <iframe
-                src="https://www.openstreetmap.org/export/embed.html?bbox=-75.3050%2C2.9100%2C-75.2650%2C2.9450&layer=mapnik&marker=2.9273%2C-75.2834"
-                width="100%"
-                height="200"
-                style={{border: 0}}
-                loading="lazy"
-                title="Sede Principal"
-              />
+              <iframe src="https://www.openstreetmap.org/export/embed.html?bbox=-75.3050%2C2.9100%2C-75.2650%2C2.9450&layer=mapnik&marker=2.9273%2C-75.2834" width="100%" height="200" style={{border: 0}} loading="lazy" title="Sede Principal" />
             </div>
             <div className="bg-gray-50 rounded-2xl p-6 flex flex-col gap-3 shadow-sm">
               <h3 className="font-bold text-gray-800 text-lg">Envianos un mensaje</h3>
-              <input type="text" placeholder="Tu nombre" className="border border-gray-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-red-700 bg-white" />
-              <input type="tel" placeholder="Tu telefono" className="border border-gray-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-red-700 bg-white" />
-              <textarea placeholder="Tu mensaje" rows={4} className="border border-gray-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-red-700 resize-none bg-white" />
-              <button className="bg-red-700 text-white font-bold py-3 rounded-xl hover:bg-red-600 transition">Enviar mensaje</button>
+              <input id="nombre" type="text" placeholder="Tu nombre" className="border border-gray-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-red-700 bg-white" />
+              <input id="telefono" type="tel" placeholder="Tu telefono" className="border border-gray-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-red-700 bg-white" />
+              <textarea id="mensaje" placeholder="Tu mensaje" rows={4} className="border border-gray-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-red-700 resize-none bg-white" />
+              <button onClick={handleEnviar} className="bg-green-500 text-white font-bold py-3 rounded-xl hover:bg-green-400 transition flex items-center justify-center gap-2">
+                Enviar por WhatsApp
+              </button>
             </div>
           </div>
         </div>
