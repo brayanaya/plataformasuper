@@ -1,19 +1,38 @@
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { useCartStore } from "../../store/cartStore"
 import CartDrawer from "./CartDrawer"
 import AuthModal from "./AuthModal"
+import { supabase } from "../../services/supabase"
+import { useNavigate } from "react-router-dom"
 
 export default function Navbar() {
   const [cartOpen, setCartOpen] = useState(false)
   const [authOpen, setAuthOpen] = useState(false)
   const [menuOpen, setMenuOpen] = useState(false)
+  const [usuario, setUsuario] = useState(null)
   const items = useCartStore((s) => s.items)
   const totalItems = items.reduce((acc, i) => acc + i.cantidad, 0)
+  const navigate = useNavigate()
+
+  useEffect(() => {
+    supabase.auth.getSession().then(({ data }) => {
+      if (data.session) setUsuario(data.session.user)
+    })
+    const { data: listener } = supabase.auth.onAuthStateChange((_event, session) => {
+      setUsuario(session?.user || null)
+    })
+    return () => listener.subscription.unsubscribe()
+  }, [])
+
+  const handleLogout = async () => {
+    await supabase.auth.signOut()
+    setUsuario(null)
+  }
 
   const scrollTo = (id) => {
     const el = document.getElementById(id)
     if (el) {
-      const top = el.getBoundingClientRect().top + window.scrollY - 100
+      const top = el.getBoundingClientRect().top + window.scrollY - 30
       window.scrollTo({ top, behavior: "smooth" })
     }
     setMenuOpen(false)
@@ -23,6 +42,9 @@ export default function Navbar() {
     window.scrollTo({ top: 0, behavior: "smooth" })
     setMenuOpen(false)
   }
+
+  const nombreUsuario = usuario?.user_metadata?.nombre || usuario?.email?.split("@")[0] || "Usuario"
+  const esAdmin = usuario?.email === "ayasteven599@gmail.com"
 
   return (
     <>
@@ -36,8 +58,22 @@ export default function Navbar() {
             <li><button onClick={() => scrollTo("catalogo")} className="border border-white px-5 py-2 rounded-full hover:bg-white hover:text-red-700 transition">Catalogo</button></li>
             <li><button onClick={() => scrollTo("quienes-somos")} className="border border-white px-5 py-2 rounded-full hover:bg-white hover:text-red-700 transition">Quienes Somos</button></li>
             <li><button onClick={() => scrollTo("contacto")} className="border border-white px-5 py-2 rounded-full hover:bg-white hover:text-red-700 transition">Contactenos</button></li>
-            <li><button onClick={() => setAuthOpen(true)} className="bg-black text-white px-5 py-2 rounded-full font-bold hover:bg-gray-800 transition">Iniciar sesion</button></li>
-            <li><button onClick={() => setAuthOpen(true)} className="bg-white text-black px-5 py-2 rounded-full font-bold hover:bg-gray-100 transition">Registrarme</button></li>
+            {usuario ? (
+              <>
+                {esAdmin && (
+                  <li><button onClick={() => navigate("/admin/dashboard")} className="bg-yellow-400 text-black px-5 py-2 rounded-full font-bold hover:bg-yellow-300 transition">Panel Admin</button></li>
+                )}
+                <li className="flex items-center gap-2">
+                  <span className="text-yellow-400 font-bold text-sm">Hola, {nombreUsuario}</span>
+                  <button onClick={handleLogout} className="bg-white/20 text-white px-4 py-2 rounded-full text-sm hover:bg-white/30 transition">Salir</button>
+                </li>
+              </>
+            ) : (
+              <>
+                <li><button onClick={() => setAuthOpen(true)} className="bg-black text-white px-5 py-2 rounded-full font-bold hover:bg-gray-800 transition">Iniciar sesion</button></li>
+                <li><button onClick={() => setAuthOpen(true)} className="bg-white text-black px-5 py-2 rounded-full font-bold hover:bg-gray-100 transition">Registrarme</button></li>
+              </>
+            )}
             <li>
               <button onClick={() => setCartOpen(true)} className="relative bg-yellow-400 text-black px-5 py-2 rounded-full font-bold hover:bg-yellow-300 transition">
                 Carrito
@@ -65,8 +101,17 @@ export default function Navbar() {
             <button onClick={() => scrollTo("catalogo")} className="border border-white px-5 py-2 rounded-full hover:bg-white hover:text-red-700 transition text-sm">Catalogo</button>
             <button onClick={() => scrollTo("quienes-somos")} className="border border-white px-5 py-2 rounded-full hover:bg-white hover:text-red-700 transition text-sm">Quienes Somos</button>
             <button onClick={() => scrollTo("contacto")} className="border border-white px-5 py-2 rounded-full hover:bg-white hover:text-red-700 transition text-sm">Contactenos</button>
-            <button onClick={() => { setAuthOpen(true); setMenuOpen(false) }} className="bg-black text-white px-5 py-2 rounded-full font-bold hover:bg-gray-800 transition text-sm">Iniciar sesion</button>
-            <button onClick={() => { setAuthOpen(true); setMenuOpen(false) }} className="bg-white text-black px-5 py-2 rounded-full font-bold hover:bg-gray-100 transition text-sm">Registrarme</button>
+            {usuario ? (
+              <>
+                {esAdmin && <button onClick={() => navigate("/admin/dashboard")} className="bg-yellow-400 text-black px-5 py-2 rounded-full font-bold transition text-sm">Panel Admin</button>}
+                <button onClick={handleLogout} className="bg-white/20 text-white px-5 py-2 rounded-full text-sm">Cerrar sesion ({nombreUsuario})</button>
+              </>
+            ) : (
+              <>
+                <button onClick={() => { setAuthOpen(true); setMenuOpen(false) }} className="bg-black text-white px-5 py-2 rounded-full font-bold transition text-sm">Iniciar sesion</button>
+                <button onClick={() => { setAuthOpen(true); setMenuOpen(false) }} className="bg-white text-black px-5 py-2 rounded-full font-bold transition text-sm">Registrarme</button>
+              </>
+            )}
           </div>
         )}
       </nav>

@@ -8,6 +8,7 @@ import AdminProductos from "./pages/AdminProductos"
 import AdminCategorias from "./pages/AdminCategorias"
 import AdminPedidos from "./pages/AdminPedidos"
 import WhatsAppButton from "./components/layout/WhatsAppButton"
+import ProtectedRoute from "./components/ProtectedRoute"
 
 function App() {
   return (
@@ -15,11 +16,11 @@ function App() {
       <Routes>
         <Route path="/" element={<><Navbar /><Home /><WhatsAppButton /></>} />
         <Route path="/admin" element={<AdminLogin />} />
-        <Route path="/admin/dashboard" element={<AdminDashboard />} />
-        <Route path="/admin/cuartillas" element={<AdminCuartillas />} />
-        <Route path="/admin/productos" element={<AdminProductos />} />
-        <Route path="/admin/categorias" element={<AdminCategorias />} />
-        <Route path="/admin/pedidos" element={<AdminPedidos />} />
+        <Route path="/admin/dashboard" element={<ProtectedRoute><AdminDashboard /></ProtectedRoute>} />
+        <Route path="/admin/cuartillas" element={<ProtectedRoute><AdminCuartillas /></ProtectedRoute>} />
+        <Route path="/admin/productos" element={<ProtectedRoute><AdminProductos /></ProtectedRoute>} />
+        <Route path="/admin/categorias" element={<ProtectedRoute><AdminCategorias /></ProtectedRoute>} />
+        <Route path="/admin/pedidos" element={<ProtectedRoute><AdminPedidos /></ProtectedRoute>} />
       </Routes>
     </BrowserRouter>
   )
