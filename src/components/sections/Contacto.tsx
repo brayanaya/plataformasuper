@@ -2,32 +2,34 @@ export default function Contacto() {
   return (
     <section id="contacto" className="bg-white py-16 px-4 md:px-6">
       <div className="max-w-5xl mx-auto">
-        <div className="text-center mb-12">
+        <div className="text-center mb-12" data-aos="fade-up">
           <h2 className="text-2xl md:text-4xl font-extrabold text-red-700">Contactenos</h2>
           <p className="text-gray-500 mt-2 text-xs md:text-base">Estamos para servirte</p>
           <div className="w-12 h-1 bg-yellow-400 mx-auto mt-3 rounded-full" />
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
           <div className="flex flex-col gap-4">
-            <div className="bg-gray-50 rounded-2xl p-5 flex gap-4 items-start border-l-4 border-red-700">
+            <div data-aos="fade-right" className="bg-gray-50 rounded-2xl p-5 flex gap-4 items-start border-l-4 border-red-700">
               <span className="text-2xl mt-1">📍</span>
               <div>
                 <h3 className="font-extrabold text-gray-800 text-sm mb-1">Sede Principal - Santa Isabel</h3>
                 <p className="text-gray-500 text-sm">Calle 10 Sur 21-92, Barrio Santa Isabel</p>
                 <p className="text-gray-500 text-sm">Neiva, Huila</p>
                 <p className="text-red-700 font-semibold text-sm mt-1">Todos los dias: 6am - 8pm</p>
+                <a href="https://maps.google.com/?q=Calle+10+Sur+21-92+Neiva+Huila" target="_blank" rel="noopener noreferrer" className="text-xs text-blue-500 hover:underline mt-1 block">Ver en Google Maps</a>
               </div>
             </div>
-            <div className="bg-gray-50 rounded-2xl p-5 flex gap-4 items-start border-l-4 border-red-700">
+            <div data-aos="fade-right" data-aos-delay="100" className="bg-gray-50 rounded-2xl p-5 flex gap-4 items-start border-l-4 border-red-700">
               <span className="text-2xl mt-1">📍</span>
               <div>
                 <h3 className="font-extrabold text-gray-800 text-sm mb-1">Sede Olaya Herrera</h3>
                 <p className="text-gray-500 text-sm">Cra 52 No. 26a-03, Barrio Olaya Herrera</p>
                 <p className="text-gray-500 text-sm">Neiva, Huila</p>
                 <p className="text-red-700 font-semibold text-sm mt-1">Todos los dias: 6am - 9pm</p>
+                <a href="https://maps.google.com/?q=Cra+52+26a-03+Olaya+Herrera+Neiva+Huila" target="_blank" rel="noopener noreferrer" className="text-xs text-blue-500 hover:underline mt-1 block">Ver en Google Maps</a>
               </div>
             </div>
-            <div className="bg-gray-50 rounded-2xl p-5 flex gap-4 items-start border-l-4 border-yellow-400">
+            <div data-aos="fade-right" data-aos-delay="200" className="bg-gray-50 rounded-2xl p-5 flex gap-4 items-start border-l-4 border-yellow-400">
               <span className="text-2xl mt-1">📞</span>
               <div>
                 <h3 className="font-extrabold text-gray-800 text-sm mb-2">Contacto directo</h3>
@@ -37,20 +39,19 @@ export default function Contacto() {
                 <a href="tel:3153400962" className="text-red-700 font-bold text-sm hover:underline">315 340 0962</a>
               </div>
             </div>
-            <a href="https://wa.me/573226937375" target="_blank" rel="noopener noreferrer" className="bg-green-500 text-white font-bold px-6 py-4 rounded-2xl text-center hover:bg-green-400 transition flex items-center justify-center gap-2">
-              <span>Escribenos por WhatsApp</span>
+            <a href="https://wa.me/573226937375" target="_blank" rel="noopener noreferrer" className="bg-green-500 text-white font-bold px-6 py-4 rounded-2xl text-center hover:bg-green-400 transition">
+              Escribenos por WhatsApp
             </a>
           </div>
-          <div className="flex flex-col gap-4">
-            <div className="bg-gray-50 rounded-2xl overflow-hidden shadow-sm">
+          <div className="flex flex-col gap-4" data-aos="fade-left">
+            <div className="rounded-2xl overflow-hidden shadow-sm">
               <iframe
-                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3986.1!2d-75.28!3d2.93!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMsKwNTUnNDguMCJOIDc1wrAxNicyOC4wIlc!5e0!3m2!1ses!2sco!4v1"
+                src="https://www.openstreetmap.org/export/embed.html?bbox=-75.3050%2C2.9100%2C-75.2650%2C2.9450&layer=mapnik&marker=2.9273%2C-75.2834"
                 width="100%"
                 height="200"
                 style={{border: 0}}
-                allowFullScreen
                 loading="lazy"
-                className="w-full"
+                title="Sede Principal"
               />
             </div>
             <div className="bg-gray-50 rounded-2xl p-6 flex flex-col gap-3 shadow-sm">

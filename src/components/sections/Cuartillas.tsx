@@ -17,7 +17,7 @@ export default function Cuartillas() {
   return (
     <section id="cuartillas" className="bg-gray-50 py-12 px-4 md:px-6">
       <div className="max-w-6xl mx-auto">
-        <div className="text-center mb-10">
+        <div className="text-center mb-10" data-aos="fade-up">
           <h2 className="text-2xl md:text-4xl font-extrabold text-red-700">Cuartillas</h2>
           <p className="text-gray-500 mt-2 text-xs md:text-base">Promociones y ofertas de la semana</p>
           <div className="w-12 h-1 bg-yellow-400 mx-auto mt-3 rounded-full" />
@@ -28,8 +28,8 @@ export default function Cuartillas() {
           <div className="text-center text-gray-400 py-10">No hay promociones activas por el momento</div>
         ) : (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            {cuartillas.map((c) => (
-              <div key={c.id} className="bg-white rounded-2xl shadow-md overflow-hidden hover:shadow-xl transition group">
+            {cuartillas.map((c, i) => (
+              <div key={c.id} data-aos="fade-up" data-aos-delay={i * 100} className="bg-white rounded-2xl shadow-md overflow-hidden hover:shadow-xl transition group">
                 <div className="overflow-hidden">
                   <img src={c.imagen_url} alt={c.titulo} className="w-full h-56 object-cover group-hover:scale-105 transition-transform duration-300" />
                 </div>
