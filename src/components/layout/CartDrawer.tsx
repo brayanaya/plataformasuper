@@ -16,15 +16,15 @@ export default function CartDrawer({ open, onClose }: Props) {
     setTimeout(() => {
       const el = document.getElementById("catalogo")
       if (el) {
-        const top = el.getBoundingClientRect().top + window.scrollY - 100
+        const top = el.getBoundingClientRect().top + window.scrollY - 110
         window.scrollTo({ top, behavior: "smooth" })
       }
     }, 300)
   }
 
   const drawerClass = open
-    ? "fixed top-0 right-0 h-full w-[480px] bg-white z-50 shadow-2xl transform transition-transform duration-300 translate-x-0"
-    : "fixed top-0 right-0 h-full w-[480px] bg-white z-50 shadow-2xl transform transition-transform duration-300 translate-x-full"
+    ? "fixed top-0 right-0 h-full w-full sm:w-[420px] bg-white z-50 shadow-2xl transform transition-transform duration-300 translate-x-0"
+    : "fixed top-0 right-0 h-full w-full sm:w-[420px] bg-white z-50 shadow-2xl transform transition-transform duration-300 translate-x-full"
 
   return (
     <>
@@ -33,12 +33,16 @@ export default function CartDrawer({ open, onClose }: Props) {
       )}
       <div className={drawerClass}>
         <div className="flex items-center justify-between px-6 bg-yellow-400 text-black h-[88px]">
-          <h2 className="text-lg font-bold">Tu Carrito</h2>
+          <div>
+            <h2 className="text-lg font-extrabold">Tu Carrito</h2>
+            {items.length > 0 && <p className="text-xs text-black/60">{items.length} producto{items.length > 1 ? "s" : ""}</p>}
+          </div>
           <button onClick={onClose} className="text-2xl font-bold hover:text-red-700">x</button>
         </div>
         <div className="flex flex-col h-[calc(100%-88px)]">
           {items.length === 0 ? (
             <div className="flex-1 flex flex-col items-center justify-center text-center gap-4 p-6">
+              <div className="w-20 h-20 bg-gray-100 rounded-full flex items-center justify-center text-4xl">🛒</div>
               <p className="text-gray-600 text-sm leading-relaxed">
                 En el momento no tienes productos. Te invito a hacer tu compra al menor tiempo y al mejor precio!
               </p>
@@ -65,7 +69,7 @@ export default function CartDrawer({ open, onClose }: Props) {
                   </div>
                 ))}
               </div>
-              <div className="p-4 border-t flex flex-col gap-3">
+              <div className="p-4 border-t flex flex-col gap-3 bg-gray-50">
                 <div className="flex justify-between font-extrabold text-lg">
                   <span>Total:</span>
                   <span className="text-red-700">${total().toLocaleString()}</span>
