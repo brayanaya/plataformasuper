@@ -1,9 +1,17 @@
+import { useEffect, useState } from "react"
+
 export default function Hero() {
+  const [visible, setVisible] = useState(false)
+
+  useEffect(() => {
+    setTimeout(() => setVisible(true), 100)
+  }, [])
+
   return (
     <section id="hero" className="bg-black text-white min-h-[calc(100vh-88px)] px-6 flex flex-col items-center justify-center text-center gap-6 relative overflow-hidden">
       <div className="absolute inset-0 bg-gradient-to-b from-black via-black/90 to-red-950 opacity-80" />
-      <div className="relative z-10 flex flex-col items-center gap-6">
-        <img src="/logo.png" alt="La Economia Aya" className="h-28 md:h-40 w-auto drop-shadow-2xl animate-pulse" style={{animationDuration: "3s"}} />
+      <div className={"relative z-10 flex flex-col items-center gap-6 transition-all duration-1000 " + (visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10")}>
+        <img src="/logo.png" alt="La Economia Aya" className="h-28 md:h-40 w-auto drop-shadow-2xl" />
         <div className="flex flex-col gap-2">
           <p className="text-yellow-400 text-xs md:text-sm font-semibold tracking-widest uppercase">Supermercado familiar en Neiva</p>
           <h1 className="text-3xl md:text-5xl font-extrabold text-white leading-tight">
@@ -16,7 +24,7 @@ export default function Hero() {
         <div className="flex flex-col sm:flex-row gap-4 mt-2 w-full max-w-sm sm:max-w-none justify-center">
           <button
             onClick={() => document.getElementById("catalogo")?.scrollIntoView({ behavior: "smooth" })}
-            className="bg-yellow-400 text-black font-extrabold px-8 py-3 rounded-full hover:bg-yellow-300 transition shadow-lg hover:shadow-yellow-400/30"
+            className="bg-yellow-400 text-black font-extrabold px-8 py-3 rounded-full hover:bg-yellow-300 transition shadow-lg"
           >
             Ver Catalogo
           </button>
