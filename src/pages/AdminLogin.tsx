@@ -21,8 +21,11 @@ export default function AdminLogin() {
   }
 
   return (
-    <div className="min-h-screen bg-black flex items-center justify-center px-4">
-      <div className="w-full max-w-md">
+    <div className="min-h-screen bg-black flex items-center justify-center px-4 relative overflow-hidden">
+      <div className="absolute inset-0 bg-gradient-to-br from-black via-red-950/30 to-black" />
+      <div className="absolute top-0 left-0 w-96 h-96 bg-red-700/10 rounded-full blur-3xl" />
+      <div className="absolute bottom-0 right-0 w-96 h-96 bg-yellow-400/5 rounded-full blur-3xl" />
+      <div className="relative w-full max-w-md">
         <div className="text-center mb-8">
           <img src="/logo.png" alt="La Economia Aya" className="h-28 w-auto mx-auto mb-4 drop-shadow-2xl" />
           <h1 className="text-white font-extrabold text-2xl">Panel Administrativo</h1>
@@ -40,39 +43,17 @@ export default function AdminLogin() {
             )}
             <div className="relative">
               <span className="absolute left-4 top-3.5 text-gray-400 text-sm">✉</span>
-              <input
-                type="email"
-                placeholder="Correo electronico"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                autoComplete="email"
-                className="w-full border border-gray-200 rounded-xl pl-10 pr-4 py-3 text-sm focus:outline-none focus:border-red-700"
-              />
+              <input type="email" placeholder="Correo electronico" value={email} onChange={(e) => setEmail(e.target.value)} autoComplete="email" className="w-full border border-gray-200 rounded-xl pl-10 pr-4 py-3 text-sm focus:outline-none focus:border-red-700" />
             </div>
             <div className="relative">
               <span className="absolute left-4 top-3.5 text-gray-400 text-sm">🔒</span>
-              <input
-                type={showPass ? "text" : "password"}
-                placeholder="Contrasena"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                autoComplete="current-password"
-                className="w-full border border-gray-200 rounded-xl pl-10 pr-16 py-3 text-sm focus:outline-none focus:border-red-700"
-              />
-              <button onClick={() => setShowPass(!showPass)} className="absolute right-4 top-3 text-gray-400 text-xs hover:text-gray-600">
-                {showPass ? "Ocultar" : "Ver"}
-              </button>
+              <input type={showPass ? "text" : "password"} placeholder="Contrasena" value={password} onChange={(e) => setPassword(e.target.value)} autoComplete="current-password" className="w-full border border-gray-200 rounded-xl pl-10 pr-16 py-3 text-sm focus:outline-none focus:border-red-700" />
+              <button onClick={() => setShowPass(!showPass)} className="absolute right-4 top-3 text-gray-400 text-xs hover:text-gray-600">{showPass ? "Ocultar" : "Ver"}</button>
             </div>
-            <button
-              onClick={handleLogin}
-              disabled={loading}
-              className="bg-red-700 text-white font-bold py-3 rounded-xl hover:bg-red-600 transition disabled:opacity-50"
-            >
+            <button onClick={handleLogin} disabled={loading} className="bg-red-700 text-white font-bold py-3 rounded-xl hover:bg-red-600 transition disabled:opacity-50">
               {loading ? "Ingresando..." : "Ingresar al panel"}
             </button>
-            <button onClick={() => navigate("/")} className="text-gray-400 text-sm text-center hover:text-gray-600 transition">
-              Volver a la tienda
-            </button>
+            <button onClick={() => navigate("/")} className="text-gray-400 text-sm text-center hover:text-gray-600 transition">Volver a la tienda</button>
           </div>
         </div>
       </div>
