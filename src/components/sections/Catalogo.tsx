@@ -35,7 +35,7 @@ export default function Catalogo() {
   }
 
   const todasCats = [{ id: "todos", nombre: "Todos" }, ...categorias]
-  const catsLoop = [...todasCats, ...todasCats, ...todasCats]
+  const catsLoop = categorias.length > 0 ? [...todasCats, ...todasCats, ...todasCats] : todasCats
 
   const handleScroll = () => {
     const el = scrollRef.current
