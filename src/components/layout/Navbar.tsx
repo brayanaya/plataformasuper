@@ -75,8 +75,8 @@ export default function Navbar() {
               </>
             )}
             <li>
-              <button onClick={() => setCartOpen(true)} className="relative bg-yellow-400 text-black px-5 py-2 rounded-full font-bold hover:bg-yellow-300 transition">
-                Carrito
+              <button onClick={() => setCartOpen(true)} className="relative bg-yellow-400 text-black px-4 py-2 rounded-full font-bold hover:bg-yellow-300 transition text-xl">
+                🛒
                 {totalItems > 0 && (
                   <span className="absolute -top-2 -right-2 bg-black text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">{totalItems}</span>
                 )}
@@ -84,8 +84,8 @@ export default function Navbar() {
             </li>
           </ul>
           <div className="flex items-center gap-3 md:hidden">
-            <button onClick={() => setCartOpen(true)} className="relative bg-yellow-400 text-black px-4 py-2 rounded-full font-bold hover:bg-yellow-300 transition text-sm">
-              Carrito
+            <button onClick={() => setCartOpen(true)} className="relative bg-yellow-400 text-black px-4 py-2 rounded-full font-bold hover:bg-yellow-300 transition text-xl">
+              🛒
               {totalItems > 0 && (
                 <span className="absolute -top-2 -right-2 bg-black text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">{totalItems}</span>
               )}
