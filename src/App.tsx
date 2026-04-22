@@ -9,12 +9,13 @@ import AdminCategorias from "./pages/AdminCategorias"
 import AdminPedidos from "./pages/AdminPedidos"
 import WhatsAppButton from "./components/layout/WhatsAppButton"
 import ProtectedRoute from "./components/ProtectedRoute"
+import ScrollToTop from "./components/layout/ScrollToTop"
 
 function App() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<><Navbar /><Home /><WhatsAppButton /></>} />
+        <Route path="/" element={<><Navbar /><Home /><WhatsAppButton /><ScrollToTop /></>} />
         <Route path="/admin" element={<AdminLogin />} />
         <Route path="/admin/dashboard" element={<ProtectedRoute><AdminDashboard /></ProtectedRoute>} />
         <Route path="/admin/cuartillas" element={<ProtectedRoute><AdminCuartillas /></ProtectedRoute>} />
