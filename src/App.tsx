@@ -10,6 +10,7 @@ import AdminPedidos from "./pages/AdminPedidos"
 import WhatsAppButton from "./components/layout/WhatsAppButton"
 import ProtectedRoute from "./components/ProtectedRoute"
 import ScrollToTop from "./components/layout/ScrollToTop"
+import NotFound from "./pages/NotFound"
 
 function App() {
   return (
@@ -22,6 +23,7 @@ function App() {
         <Route path="/admin/productos" element={<ProtectedRoute><AdminProductos /></ProtectedRoute>} />
         <Route path="/admin/categorias" element={<ProtectedRoute><AdminCategorias /></ProtectedRoute>} />
         <Route path="/admin/pedidos" element={<ProtectedRoute><AdminPedidos /></ProtectedRoute>} />
+        <Route path="*" element={<NotFound />} />
       </Routes>
     </BrowserRouter>
   )
