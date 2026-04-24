@@ -43,26 +43,27 @@ export default function CartDrawer({ open, onClose }: Props) {
           {items.length === 0 ? (
             <div className="flex-1 flex flex-col items-center justify-center text-center gap-4 p-6">
               <div className="w-20 h-20 bg-gray-100 rounded-full flex items-center justify-center text-4xl">🛒</div>
-              <p className="text-gray-600 text-sm leading-relaxed">
-                En el momento no tienes productos. Te invito a hacer tu compra al menor tiempo y al mejor precio!
-              </p>
-              <button onClick={irACatalogo} className="bg-red-700 text-white font-bold px-6 py-2 rounded-full hover:bg-red-600 transition">
-                Ver Catalogo
-              </button>
+              <p className="text-gray-600 text-sm leading-relaxed">En el momento no tienes productos. Te invito a hacer tu compra al menor tiempo y al mejor precio!</p>
+              <button onClick={irACatalogo} className="bg-red-700 text-white font-bold px-6 py-2 rounded-full hover:bg-red-600 transition">Ver Catalogo</button>
             </div>
           ) : (
             <>
               <div className="flex-1 overflow-auto p-4 flex flex-col gap-3">
                 {items.map((item) => (
                   <div key={item.id} className="flex items-center gap-3 border-b pb-3">
-                    <div className="flex-1">
-                      <p className="font-semibold text-sm">{item.nombre}</p>
-                      <p className="text-red-700 font-bold text-sm">${item.precio.toLocaleString()}</p>
-                      <p className="text-gray-400 text-xs">Subtotal: ${(item.precio * item.cantidad).toLocaleString()}</p>
+                    {item.imagen_url ? (
+                      <img src={item.imagen_url} alt={item.nombre} className="w-12 h-12 object-cover rounded-xl flex-shrink-0" />
+                    ) : (
+                      <div className="w-12 h-12 bg-gray-200 rounded-xl flex-shrink-0 flex items-center justify-center text-gray-400 text-xs">📦</div>
+                    )}
+                    <div className="flex-1 min-w-0">
+                      <p className="font-semibold text-sm truncate">{item.nombre}</p>
+                      <p className="text-red-700 font-bold text-sm">\</p>
+                      <p className="text-gray-400 text-xs">Subtotal: \</p>
                     </div>
-                    <div className="flex items-center gap-2">
+                    <div className="flex items-center gap-1 flex-shrink-0">
                       <button onClick={() => restarItem(item.id)} className="w-7 h-7 rounded-full bg-gray-200 font-bold text-sm flex items-center justify-center hover:bg-red-200">-</button>
-                      <span className="text-sm font-bold w-4 text-center">{item.cantidad}</span>
+                      <span className="text-sm font-bold w-5 text-center">{item.cantidad}</span>
                       <button onClick={() => addItem({ ...item, cantidad: 1 })} className="w-7 h-7 rounded-full bg-gray-200 font-bold text-sm flex items-center justify-center hover:bg-green-200">+</button>
                       <button onClick={() => removeItem(item.id)} className="w-7 h-7 rounded-full bg-red-100 text-red-600 font-bold text-xs flex items-center justify-center hover:bg-red-200 ml-1">X</button>
                     </div>
@@ -72,14 +73,10 @@ export default function CartDrawer({ open, onClose }: Props) {
               <div className="p-4 border-t flex flex-col gap-3 bg-gray-50">
                 <div className="flex justify-between font-extrabold text-lg">
                   <span>Total:</span>
-                  <span className="text-red-700">${total().toLocaleString()}</span>
+                  <span className="text-red-700">\</span>
                 </div>
-                <button onClick={() => { onClose(); setCheckoutOpen(true) }} className="bg-red-700 text-white font-bold py-3 rounded-xl hover:bg-red-600 transition">
-                  Finalizar pedido
-                </button>
-                <button onClick={clearCart} className="text-gray-400 text-sm text-center hover:text-red-600 transition">
-                  Vaciar carrito
-                </button>
+                <button onClick={() => { onClose(); setCheckoutOpen(true) }} className="bg-red-700 text-white font-bold py-3 rounded-xl hover:bg-red-600 transition">Finalizar pedido</button>
+                <button onClick={clearCart} className="text-gray-400 text-sm text-center hover:text-red-600 transition">Vaciar carrito</button>
               </div>
             </>
           )}
