@@ -1,4 +1,4 @@
-import { create } from "zustand"
+import { create } from 'zustand'
 
 interface CartItem {
   id: string
@@ -30,8 +30,7 @@ export const useCartStore = create<CartStore>((set, get) => ({
   removeItem: (id) => set({ items: get().items.filter((i) => i.id !== id) }),
   restarItem: (id) => {
     const item = get().items.find((i) => i.id === id)
-    if (!item) return
-    if (item.cantidad === 1) return
+    if (!item || item.cantidad === 1) return
     set({ items: get().items.map((i) => i.id === id ? { ...i, cantidad: i.cantidad - 1 } : i) })
   },
   clearCart: () => set({ items: [] }),
