@@ -5,6 +5,7 @@ interface CartItem {
   nombre: string
   precio: number
   cantidad: number
+  imagen_url?: string
 }
 
 interface CartStore {
