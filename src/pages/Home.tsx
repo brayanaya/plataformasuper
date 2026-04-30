@@ -1,23 +1,19 @@
-import Hero from "../components/sections/Hero"
-import Beneficios from "../components/sections/Beneficios"
-import Cuartillas from "../components/sections/Cuartillas"
-import Catalogo from "../components/sections/Catalogo"
-import QuienesSomos from "../components/sections/QuienesSomos"
-import Contacto from "../components/sections/Contacto"
-import Footer from "../components/layout/Footer"
-import PageLoader from "../components/layout/PageLoader"
+import Hero from '../components/sections/Hero'
+import Cuartillas from '../components/sections/Cuartillas'
+import Catalogo from '../components/sections/Catalogo'
 
 export default function Home() {
   return (
     <main>
-      <PageLoader />
       <Hero />
-      <Beneficios />
       <Cuartillas />
       <Catalogo />
-      <QuienesSomos />
-      <Contacto />
-      <Footer />
+      <section id="quienes-somos" className="min-h-screen bg-white flex items-center justify-center">
+        <h2 className="text-3xl font-bold text-red-700">Quienes Somos</h2>
+      </section>
+      <section id="contacto" className="min-h-screen bg-gray-50 flex items-center justify-center">
+        <h2 className="text-3xl font-bold text-red-700">Contactenos</h2>
+      </section>
     </main>
   )
 }
