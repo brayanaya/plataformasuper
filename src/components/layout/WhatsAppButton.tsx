@@ -1,7 +1,16 @@
-export default function WhatsAppButton() {
+﻿export default function WhatsAppButton() {
   return (
-    <a href="https://wa.me/573226937375" target="_blank" rel="noopener noreferrer" className="fixed bottom-6 right-6 z-50 rounded-full w-14 h-14 flex items-center justify-center shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-110">
-      <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" alt="WhatsApp" className="w-14 h-14" />
+    <a
+      href="https://wa.me/573226937375"
+      target="_blank"
+      rel="noopener noreferrer"
+      className="fixed bottom-5 right-5 z-50 w-13 h-13 flex items-center justify-center hover:scale-110 transition-all duration-300"
+      title="Chatear por WhatsApp"
+    >
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" className="w-14 h-14">
+        <circle cx="24" cy="24" r="24" fill="#25D366"/>
+        <path fill="white" d="M24 10C16.268 10 10 16.268 10 24c0 2.49.655 4.829 1.8 6.857L10 38l7.347-1.773A13.94 13.94 0 0 0 24 38c7.732 0 14-6.268 14-14S31.732 10 24 10zm0 25.5a11.44 11.44 0 0 1-5.823-1.594l-.418-.247-4.33 1.046 1.087-4.222-.272-.433A11.45 11.45 0 0 1 12.5 24c0-6.351 5.149-11.5 11.5-11.5S35.5 17.649 35.5 24 30.351 35.5 24 35.5zm6.29-8.617c-.344-.172-2.036-1.004-2.351-1.119-.315-.115-.544-.172-.773.172-.229.344-.887 1.119-1.087 1.348-.2.23-.4.258-.744.086-.344-.172-1.453-.536-2.768-1.708-1.023-.913-1.713-2.04-1.913-2.384-.2-.344-.021-.53.15-.701.155-.155.344-.4.516-.6.172-.2.229-.344.344-.573.115-.23.057-.43-.029-.601-.086-.172-.773-1.864-1.059-2.553-.279-.669-.563-.578-.773-.59-.2-.01-.43-.012-.659-.012s-.601.086-.916.43c-.315.344-1.202 1.175-1.202 2.867s1.231 3.325 1.402 3.554c.172.23 2.424 3.703 5.872 5.193.821.354 1.461.566 1.96.724.824.263 1.574.226 2.167.137.661-.099 2.036-.832 2.323-1.635.287-.803.287-1.491.2-1.635-.086-.143-.315-.23-.659-.402z"/>
+      </svg>
     </a>
   )
 }
