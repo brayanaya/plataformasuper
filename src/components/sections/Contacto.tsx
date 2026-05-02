@@ -1,72 +1,68 @@
-export default function Contacto() {
-  const handleEnviar = () => {
-    const nombre = document.getElementById("nombre").value
-    const telefono = document.getElementById("telefono").value
-    const mensaje = document.getElementById("mensaje").value
-    if (!nombre || !telefono || !mensaje) return alert("Por favor completa todos los campos")
-    const texto = "Hola, soy " + nombre + " (Tel: " + telefono + "). " + mensaje
-    const url = "https://wa.me/573226937375?text=" + encodeURIComponent(texto)
-    window.open(url, "_blank")
+﻿export default function Contacto() {
+  const handleWhatsApp = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault()
+    const form = e.currentTarget
+    const nombre = (form.elements.namedItem('nombre') as HTMLInputElement).value
+    const mensaje = (form.elements.namedItem('mensaje') as HTMLTextAreaElement).value
+    const texto = 'Hola! Soy ' + nombre + '. ' + mensaje
+    window.open('https://wa.me/573226937375?text=' + encodeURIComponent(texto), '_blank')
   }
-
   return (
-    <section id="contacto" className="bg-white py-16 px-4 md:px-6">
-      <div className="max-w-5xl mx-auto">
-        <div className="text-center mb-12" data-aos="fade-up">
-          <h2 className="text-2xl md:text-4xl font-extrabold text-red-700">Contactenos</h2>
-          <p className="text-gray-500 mt-2 text-xs md:text-base">Estamos para servirte</p>
-          <div className="w-12 h-1 bg-yellow-400 mx-auto mt-3 rounded-full" />
+    <section id="contacto" className="bg-white py-14 px-4 md:px-6">
+      <div className="max-w-6xl mx-auto">
+        <div className="text-center mb-10">
+          <h2 className="text-2xl md:text-3xl font-extrabold text-red-700">Contactenos</h2>
+          <p className="text-gray-500 mt-1 text-xs md:text-sm">Estamos para servirte</p>
+          <div className="w-10 h-1 bg-yellow-400 mx-auto mt-3 rounded-full" />
         </div>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
+        <div className="grid md:grid-cols-2 gap-8 mb-8">
           <div className="flex flex-col gap-4">
-            <div data-aos="fade-right" className="bg-gray-50 rounded-2xl p-5 flex gap-4 items-start border-l-4 border-red-700">
-              <span className="text-2xl mt-1">📍</span>
-              <div>
-                <h3 className="font-extrabold text-gray-800 text-sm mb-1">Sede Principal - Santa Isabel</h3>
-                <p className="text-gray-500 text-sm">Calle 10 Sur 21-92, Barrio Santa Isabel</p>
-                <p className="text-gray-500 text-sm">Neiva, Huila</p>
-                <p className="text-red-700 font-semibold text-sm mt-1">Todos los dias: 6am - 8pm</p>
-                <a href="https://maps.google.com/?q=Calle+10+Sur+21-92+Neiva+Huila" target="_blank" rel="noopener noreferrer" className="text-xs text-blue-500 hover:underline mt-1 block">Ver en Google Maps</a>
+            <h3 className="font-extrabold text-gray-800 text-sm">Nuestras Sedes</h3>
+            <a href="https://maps.google.com/?q=Calle+10+Sur+21-92+Neiva" target="_blank" className="bg-gray-50 rounded-xl p-4 border border-gray-100 hover:border-red-300 transition group">
+              <div className="flex items-start gap-3">
+                <div className="w-2 h-2 rounded-full bg-red-700 mt-1.5 flex-shrink-0" />
+                <div>
+                  <p className="font-bold text-red-700 text-xs">Sede Principal - Santa Isabel</p>
+                  <p className="text-gray-600 text-xs mt-0.5">Calle 10 Sur 21-92, Barrio Santa Isabel, Neiva</p>
+                  <p className="text-gray-400 text-xs">Lunes a Domingo: 6am - 8pm</p>
+                  <p className="text-red-700 text-xs mt-1 font-semibold group-hover:underline">Ver en Google Maps</p>
+                </div>
               </div>
-            </div>
-            <div data-aos="fade-right" data-aos-delay="100" className="bg-gray-50 rounded-2xl p-5 flex gap-4 items-start border-l-4 border-red-700">
-              <span className="text-2xl mt-1">📍</span>
-              <div>
-                <h3 className="font-extrabold text-gray-800 text-sm mb-1">Sede Olaya Herrera</h3>
-                <p className="text-gray-500 text-sm">Cra 52 No. 26a-03, Barrio Olaya Herrera</p>
-                <p className="text-gray-500 text-sm">Neiva, Huila</p>
-                <p className="text-red-700 font-semibold text-sm mt-1">Todos los dias: 6am - 9pm</p>
-                <a href="https://maps.google.com/?q=Cra+52+26a-03+Olaya+Herrera+Neiva+Huila" target="_blank" rel="noopener noreferrer" className="text-xs text-blue-500 hover:underline mt-1 block">Ver en Google Maps</a>
-              </div>
-            </div>
-            <div data-aos="fade-right" data-aos-delay="200" className="bg-gray-50 rounded-2xl p-5 flex gap-4 items-start border-l-4 border-yellow-400">
-              <span className="text-2xl mt-1">📞</span>
-              <div>
-                <h3 className="font-extrabold text-gray-800 text-sm mb-2">Contacto directo</h3>
-                <p className="text-gray-600 text-sm">Cristian Camilo Aya Alvarez</p>
-                <a href="tel:3226937375" className="text-red-700 font-bold text-sm hover:underline">322 693 7375</a>
-                <p className="text-gray-600 text-sm mt-2">Edwin Andres Aya Diaz</p>
-                <a href="tel:3153400962" className="text-red-700 font-bold text-sm hover:underline">315 340 0962</a>
-              </div>
-            </div>
-            <a href="https://wa.me/573226937375" target="_blank" rel="noopener noreferrer" className="bg-green-500 text-white font-bold px-6 py-4 rounded-2xl text-center hover:bg-green-400 transition">
-              Escribenos por WhatsApp
             </a>
-          </div>
-          <div className="flex flex-col gap-4" data-aos="fade-left">
-            <div className="rounded-2xl overflow-hidden shadow-sm">
-              <iframe src="https://www.openstreetmap.org/export/embed.html?bbox=-75.3050%2C2.9100%2C-75.2650%2C2.9450&layer=mapnik&marker=2.9273%2C-75.2834" width="100%" height="200" style={{border: 0}} loading="lazy" title="Sede Principal" />
+            <a href="https://maps.google.com/?q=Carrera+52+26a-03+Neiva" target="_blank" className="bg-gray-50 rounded-xl p-4 border border-gray-100 hover:border-red-300 transition group">
+              <div className="flex items-start gap-3">
+                <div className="w-2 h-2 rounded-full bg-red-700 mt-1.5 flex-shrink-0" />
+                <div>
+                  <p className="font-bold text-red-700 text-xs">Sede Olaya Herrera</p>
+                  <p className="text-gray-600 text-xs mt-0.5">Cra 52 #26a-03, Barrio Olaya Herrera, Neiva</p>
+                  <p className="text-gray-400 text-xs">Lunes a Domingo: 6am - 9pm</p>
+                  <p className="text-red-700 text-xs mt-1 font-semibold group-hover:underline">Ver en Google Maps</p>
+                </div>
+              </div>
+            </a>
+            <div className="bg-gray-50 rounded-xl p-4 border border-gray-100">
+              <h3 className="font-extrabold text-gray-800 text-xs mb-2">Contacto Directo</h3>
+              <div className="flex flex-col gap-1">
+                <a href="tel:3226937375" className="text-xs text-gray-600 hover:text-red-700 transition">Cristian Camilo Aya Alvarez: 322 693 7375</a>
+                <a href="tel:3153400962" className="text-xs text-gray-600 hover:text-red-700 transition">Edwin Andres Aya Diaz: 315 340 0962</a>
+                <div className="flex gap-3 mt-2">
+                  <a href="https://wa.me/573226937375" target="_blank" className="text-xs text-green-600 font-bold hover:underline">WhatsApp</a>
+                  <a href="https://www.facebook.com/profile.php?id=100063686697288" target="_blank" className="text-xs text-blue-600 font-bold hover:underline">Facebook</a>
+                </div>
+              </div>
             </div>
-            <div className="bg-gray-50 rounded-2xl p-6 flex flex-col gap-3 shadow-sm">
-              <h3 className="font-bold text-gray-800 text-lg">Envianos un mensaje</h3>
-              <input id="nombre" type="text" placeholder="Tu nombre" className="border border-gray-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-red-700 bg-white" />
-              <input id="telefono" type="tel" placeholder="Tu telefono" className="border border-gray-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-red-700 bg-white" />
-              <textarea id="mensaje" placeholder="Tu mensaje" rows={4} className="border border-gray-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-red-700 resize-none bg-white" />
-              <button onClick={handleEnviar} className="bg-green-500 text-white font-bold py-3 rounded-xl hover:bg-green-400 transition flex items-center justify-center gap-2">
-                Enviar por WhatsApp
-              </button>
-            </div>
           </div>
+          <div className="flex flex-col gap-4">
+            <h3 className="font-extrabold text-gray-800 text-sm">Envianos un mensaje</h3>
+            <form onSubmit={handleWhatsApp} className="flex flex-col gap-3">
+              <input name="nombre" type="text" placeholder="Tu nombre" required className="border border-gray-200 rounded-xl px-4 py-2.5 text-xs focus:outline-none focus:border-red-700" />
+              <textarea name="mensaje" placeholder="Tu mensaje" required rows={4} className="border border-gray-200 rounded-xl px-4 py-2.5 text-xs focus:outline-none focus:border-red-700 resize-none" />
+              <button type="submit" className="bg-red-700 text-white font-bold py-2.5 rounded-xl hover:bg-red-600 transition text-sm">Enviar por WhatsApp</button>
+            </form>
+          </div>
+        </div>
+        <div className="rounded-2xl overflow-hidden shadow border border-gray-100">
+          <iframe src="https://www.openstreetmap.org/export/embed.html?bbox=-75.2950%2C2.9150%2C-75.2650%2C2.9400&layer=mapnik&marker=2.9273%2C-75.2820" width="100%" height="260" style={{ border: 0 }} loading="lazy" title="Ubicacion La Economia Aya" />
         </div>
       </div>
     </section>

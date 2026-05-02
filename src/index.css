@@ -1,8 +1,18 @@
-@import "tailwindcss";
+﻿@import 'tailwindcss';
 
-body {
-  margin: 0;
-  padding: 0;
+html {
+  font-size: 15px;
 }
-@keyframes marquee { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
-.animate-marquee { animation: marquee 20s linear infinite; }
+
+* {
+  box-sizing: border-box;
+}
+
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
