@@ -10,7 +10,10 @@
   const lista = [...items, ...items]
   return (
     <div className="bg-red-700 py-2.5 overflow-hidden">
-      <div className="flex gap-8 animate-marquee whitespace-nowrap" style={{ animation: 'marquee 25s linear infinite' }}>
+      <div
+        className="flex gap-8 whitespace-nowrap"
+        style={{ display: 'flex', animation: 'marquee 25s linear infinite', width: 'max-content' }}
+      >
         {lista.map((item, i) => (
           <span key={i} className="flex items-center gap-2 text-white text-xs font-semibold flex-shrink-0">
             <span>{item.icon}</span>
@@ -19,7 +22,6 @@
           </span>
         ))}
       </div>
-      <style>{@keyframes marquee { 0% { transform: translateX(0) } 100% { transform: translateX(-50%) } }}</style>
     </div>
   )
 }
