@@ -5,7 +5,6 @@ export default function Hero() {
   return (
     <section id="hero" className="relative bg-black text-white min-h-[calc(100vh-88px)] px-6 flex flex-col items-center justify-center text-center gap-6 overflow-hidden">
       <div className="absolute inset-0" style={{ background: 'radial-gradient(ellipse at top, #7f1d1d 0%, #000 60%)' }} />
-      <div className="absolute bottom-0 left-0 right-0 h-32" style={{ background: 'linear-gradient(to top, #f9fafb, transparent)' }} />
       <div className={'relative z-10 flex flex-col items-center gap-6 transition-all duration-1000 ' + (visible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10')}>
         <div className="relative">
           <div className="absolute inset-0 blur-3xl bg-yellow-400/20 rounded-full" />
