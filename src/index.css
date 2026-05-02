@@ -1,18 +1,10 @@
 ﻿@import 'tailwindcss';
 
-html {
-  font-size: 15px;
+html { font-size: 15px; }
+
+@keyframes marquee {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
 }
 
-* {
-  box-sizing: border-box;
-}
-
-.no-scrollbar::-webkit-scrollbar {
-  display: none;
-}
-
-.no-scrollbar {
-  -ms-overflow-style: none;
-  scrollbar-width: none;
-}
+* { box-sizing: border-box; }
