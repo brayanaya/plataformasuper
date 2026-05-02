@@ -14,10 +14,10 @@
           <p className="text-gray-500 mt-1 text-xs md:text-sm">Estamos para servirte</p>
           <div className="w-10 h-1 bg-yellow-400 mx-auto mt-3 rounded-full" />
         </div>
-        <div className="grid md:grid-cols-2 gap-8">
+        <div className="grid md:grid-cols-2 gap-8 mb-8">
           <div className="flex flex-col gap-4">
             <h3 className="font-extrabold text-gray-800 text-sm">Nuestras Sedes</h3>
-            <a href="https://maps.google.com/?q=Calle+10+Sur+21-92+Neiva" target="_blank" className="bg-gray-50 rounded-xl p-4 border border-gray-100 hover:border-red-300 transition group">
+            <a href="https://maps.google.com/?q=Calle+10+Sur+21-92+Santa+Isabel+Neiva" target="_blank" className="bg-gray-50 rounded-xl p-4 border border-gray-100 hover:border-red-300 transition group">
               <div className="flex items-start gap-3">
                 <div className="w-2 h-2 rounded-full bg-red-700 mt-1.5 flex-shrink-0" />
                 <div>
@@ -28,7 +28,7 @@
                 </div>
               </div>
             </a>
-            <a href="https://maps.google.com/?q=Carrera+52+26a-03+Neiva" target="_blank" className="bg-gray-50 rounded-xl p-4 border border-gray-100 hover:border-red-300 transition group">
+            <a href="https://maps.google.com/?q=Carrera+52+26a-03+Olaya+Herrera+Neiva" target="_blank" className="bg-gray-50 rounded-xl p-4 border border-gray-100 hover:border-red-300 transition group">
               <div className="flex items-start gap-3">
                 <div className="w-2 h-2 rounded-full bg-red-700 mt-1.5 flex-shrink-0" />
                 <div>
@@ -53,13 +53,26 @@
             <h3 className="font-extrabold text-gray-800 text-sm">Envianos un mensaje</h3>
             <form onSubmit={handleWhatsApp} className="flex flex-col gap-3">
               <input name="nombre" type="text" placeholder="Tu nombre" required className="border border-gray-200 rounded-xl px-4 py-2.5 text-xs focus:outline-none focus:border-red-700" />
-              <textarea name="mensaje" placeholder="Tu mensaje" required rows={4} className="border border-gray-200 rounded-xl px-4 py-2.5 text-xs focus:outline-none focus:border-red-700 resize-none" />
+              <textarea name="mensaje" placeholder="Tu mensaje" required rows={3} className="border border-gray-200 rounded-xl px-4 py-2.5 text-xs focus:outline-none focus:border-red-700 resize-none" />
               <button type="submit" className="bg-red-700 text-white font-bold py-2.5 rounded-xl hover:bg-red-600 transition text-sm">Enviar por WhatsApp</button>
             </form>
-            <div className="rounded-xl overflow-hidden border border-gray-100 shadow-sm">
-              <iframe src="https://www.openstreetmap.org/export/embed.html?bbox=-75.2950%2C2.9150%2C-75.2650%2C2.9400&layer=mapnik&marker=2.9273%2C-75.2820" width="100%" height="180" style={{ border: 0 }} loading="lazy" title="Ubicacion La Economia Aya" />
-            </div>
           </div>
+        </div>
+        <div className="rounded-2xl overflow-hidden shadow border border-gray-100">
+          <div className="bg-gray-50 border-b border-gray-100 px-4 py-2.5 flex items-center justify-between">
+            <p className="text-xs font-semibold text-gray-600">Nuestras ubicaciones en Neiva</p>
+            <a href="https://www.google.com/maps/search/La+Economia+Aya+Neiva" target="_blank" className="text-xs text-red-700 font-semibold hover:underline">Abrir en Google Maps</a>
+          </div>
+          <iframe
+            src="https://www.google.com/maps/embed?pb=!1m16!1m12!1m3!1d15942.5!2d-75.2820!3d2.9273!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!2m1!1ssupermercado+la+economia+aya+neiva!5e0!3m2!1ses!2sco!4v1"
+            width="100%"
+            height="320"
+            style={{ border: 0 }}
+            allowFullScreen
+            loading="lazy"
+            referrerPolicy="no-referrer-when-downgrade"
+            title="Supermercado La Economia Aya - Neiva"
+          />
         </div>
       </div>
     </section>
