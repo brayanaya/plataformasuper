@@ -17,7 +17,7 @@ function App() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/'" element={<><Navbar /><Home /><WhatsAppButton /><ScrollToTop /></>} />
+        <Route path="/" element={<><Navbar /><Home /><WhatsAppButton /><ScrollToTop /></>} />
         <Route path="/pedido" element={<SeguimientoPedido />} />
         <Route path="/admin" element={<AdminLogin />} />
         <Route path="/admin/dashboard" element={<ProtectedRoute><AdminDashboard /></ProtectedRoute>} />
