@@ -16,6 +16,7 @@ export default function CheckoutModal({ open, onClose }: Props) {
   const [loading, setLoading] = useState(false)
   const [pedidoId, setPedidoId] = useState('')
   const [error, setError] = useState('')
+  const [copiado, setCopiado] = useState(false)
 
   const handlePedido = async () => {
     if (!nombre || !telefono || !direccion) return setError('Completa nombre, telefono y direccion')
@@ -28,23 +29,28 @@ export default function CheckoutModal({ open, onClose }: Props) {
     if (pedidoError || !pedido) { setError('Error al registrar, intenta de nuevo'); setLoading(false); return }
     await supabase.from('pedido_items').insert(items.map((i) => ({ pedido_id: pedido.id, producto_id: i.id, cantidad: i.cantidad, precio_unitario: i.precio })))
     const codigo = pedido.id.slice(0, 8).toUpperCase()
-    const lista = items.map((i) => '• ' + i.nombre + ' x' + i.cantidad + ' ($' + (i.precio * i.cantidad).toLocaleString('es-CO') + ')').join('%0A')
-    const msg = 
-      '🛒 *NUEVO PEDIDO - La Economia Aya*%0A' +
-      '━━━━━━━━━━━━━━━━━━━━%0A' +
-      '📋 *Codigo:* #' + codigo + '%0A' +
-      '👤 *Cliente:* ' + nombre + '%0A' +
-      '📞 *Telefono:* ' + telefono + '%0A' +
-      '📍 *Direccion:* ' + direccion + (barrio ? ', Barrio ' + barrio : '') + '%0A' +
-      (notas ? '📝 *Notas:* ' + notas + '%0A' : '') +
-      '━━━━━━━━━━━━━━━━━━━━%0A' +
-      '🧾 *Productos:*%0A' + lista + '%0A' +
-      '━━━━━━━━━━━━━━━━━━━━%0A' +
-      '💰 *Total: $' + totalVal.toLocaleString('es-CO') + '*'
+    const lista = items.map((i) => '%0A• ' + i.nombre + ' x' + i.cantidad + ' ($' + (i.precio * i.cantidad).toLocaleString('es-CO') + ')').join('')
+    const msg = '%F0%9F%9B%92 *PEDIDO - La Economia Aya*%0A' +
+      '%E2%94%81%E2%94%81%E2%94%81%E2%94%81%E2%94%81%E2%94%81%E2%94%81%E2%94%81%E2%94%81%E2%94%81%0A' +
+      '%F0%9F%93%8B *Codigo:* %23' + codigo + '%0A' +
+      '%F0%9F%91%A4 *Cliente:* ' + encodeURIComponent(nombre) + '%0A' +
+      '%F0%9F%93%9E *Tel:* ' + telefono + '%0A' +
+      '%F0%9F%93%8D *Direccion:* ' + encodeURIComponent(direccion) + (barrio ? ', Barrio ' + encodeURIComponent(barrio) : '') + '%0A' +
+      (notas ? '%F0%9F%93%9D *Notas:* ' + encodeURIComponent(notas) + '%0A' : '') +
+      '%E2%94%81%E2%94%81%E2%94%81%E2%94%81%E2%94%81%E2%94%81%E2%94%81%E2%94%81%E2%94%81%E2%94%81%0A' +
+      '*Productos:*' + lista + '%0A' +
+      '%E2%94%81%E2%94%81%E2%94%81%E2%94%81%E2%94%81%E2%94%81%E2%94%81%E2%94%81%E2%94%81%E2%94%81%0A' +
+      '*Total: $' + totalVal.toLocaleString('es-CO') + '*'
     window.open('https://wa.me/573226937375?text=' + msg, '_blank')
     clearCart()
     setPedidoId(codigo)
     setLoading(false)
+  }
+
+  const copiarCodigo = () => {
+    navigator.clipboard.writeText(pedidoId)
+    setCopiado(true)
+    setTimeout(() => setCopiado(false), 2000)
   }
 
   const cerrar = () => { setPedidoId(''); onClose(); setNombre(''); setTelefono(''); setDireccion(''); setBarrio(''); setNotas('') }
@@ -55,18 +61,26 @@ export default function CheckoutModal({ open, onClose }: Props) {
     <div className="fixed inset-0 bg-black/70 backdrop-blur-sm z-50 flex items-end sm:items-center justify-center px-0 sm:px-4">
       <div className="bg-white w-full sm:rounded-2xl shadow-2xl sm:max-w-sm overflow-hidden">
         {pedidoId ? (
-          <div className="p-8 text-center flex flex-col gap-4">
-            <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto">
-              <svg xmlns="http://www.w3.org/2000/svg" className="w-8 h-8 text-green-500" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" /></svg>
+          <div className="p-6 text-center flex flex-col gap-4">
+            <div className="w-14 h-14 bg-green-100 rounded-full flex items-center justify-center mx-auto">
+              <svg xmlns="http://www.w3.org/2000/svg" className="w-7 h-7 text-green-500" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" /></svg>
             </div>
-            <h2 className="text-xl font-extrabold text-gray-800">Pedido enviado!</h2>
-            <div className="bg-gray-50 rounded-xl p-4">
-              <p className="text-gray-500 text-xs">Codigo de tu pedido</p>
-              <p className="text-2xl font-extrabold text-red-700 tracking-widest mt-1">#{pedidoId}</p>
-              <p className="text-gray-400 text-xs mt-2">Guarda este codigo para hacer seguimiento de tu pedido</p>
+            <div>
+              <h2 className="text-lg font-extrabold text-gray-800">Pedido confirmado!</h2>
+              <p className="text-gray-500 text-xs mt-1">Te contactaremos pronto para coordinar el domicilio</p>
             </div>
-            <p className="text-gray-500 text-xs">Te redirigimos a WhatsApp para confirmar. Nos comunicaremos contigo pronto.</p>
-            <button onClick={cerrar} className="bg-red-700 text-white font-bold py-3 rounded-xl hover:bg-red-600 transition">Cerrar</button>
+            <div className="bg-gray-50 rounded-xl p-4 border border-gray-100">
+              <p className="text-gray-400 text-xs mb-1">Codigo de seguimiento</p>
+              <p className="text-2xl font-extrabold text-red-700 tracking-widest font-mono">#{pedidoId}</p>
+              <button onClick={copiarCodigo} className="mt-2 text-xs text-gray-500 hover:text-red-700 transition flex items-center gap-1 mx-auto">
+                {copiado ? ('✓ Copiado') : ('Copiar codigo')}
+              </button>
+            </div>
+            <a href={'/pedido?codigo=' + pedidoId} target="_blank" className="bg-gray-50 border border-gray-200 text-gray-700 font-semibold py-2.5 rounded-xl hover:border-red-300 transition text-sm flex items-center justify-center gap-2">
+              <svg xmlns="http://www.w3.org/2000/svg" className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" /></svg>
+              Ver estado del pedido
+            </a>
+            <button onClick={cerrar} className="bg-red-700 text-white font-bold py-2.5 rounded-xl hover:bg-red-600 transition text-sm">Cerrar</button>
           </div>
         ) : (
           <>
