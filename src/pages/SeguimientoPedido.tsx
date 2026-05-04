@@ -1,33 +1,43 @@
-﻿import { useState } from 'react'
+﻿import { useState, useEffect } from 'react'
 import { supabase } from '../services/supabase'
 import { useNavigate } from 'react-router-dom'
 
 export default function SeguimientoPedido() {
   const [codigo, setCodigo] = useState('')
-  const [pedido, setPedido] = useState(null)
-  const [items, setItems] = useState([])
+  const [pedido, setPedido] = useState<any>(null)
+  const [items, setItems] = useState<any[]>([])
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
   const navigate = useNavigate()
 
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search)
+    const cod = params.get('codigo')
+    if (cod) { setCodigo(cod); buscarConCodigo(cod) }
+  }, [])
+
   const colorEstado = (estado: string) => {
     if (estado === 'pendiente') return { bg: 'bg-orange-100', text: 'text-orange-600', label: 'Pendiente' }
     if (estado === 'en preparacion') return { bg: 'bg-blue-100', text: 'text-blue-600', label: 'En preparacion' }
-    if (estado === 'en camino') return { bg: 'bg-yellow-100', text: 'text-yellow-600', label: 'En camino' }
+    if (estado === 'en camino') return { bg: 'bg-yellow-100', text: 'text-yellow-700', label: 'En camino' }
     if (estado === 'entregado') return { bg: 'bg-green-100', text: 'text-green-600', label: 'Entregado' }
     if (estado === 'cancelado') return { bg: 'bg-red-100', text: 'text-red-600', label: 'Cancelado' }
     return { bg: 'bg-gray-100', text: 'text-gray-600', label: estado }
   }
 
-  const pasos = ['pendiente', 'en preparacion', 'en camino', 'entregado']
+  const pasos = [
+    { key: 'pendiente', label: 'Recibido' },
+    { key: 'en preparacion', label: 'Preparando' },
+    { key: 'en camino', label: 'En camino' },
+    { key: 'entregado', label: 'Entregado' },
+  ]
 
-  const buscar = async () => {
-    if (!codigo) return setError('Ingresa tu codigo de pedido')
+  const buscarConCodigo = async (cod: string) => {
     setLoading(true); setError(''); setPedido(null)
     const { data, error } = await supabase
       .from('pedidos')
       .select('*, pedido_items(*, productos(nombre))')
-      .ilike('id', codigo.toLowerCase() + '%')
+      .ilike('id', cod.toLowerCase() + '%')
       .single()
     if (error || !data) { setError('No encontramos un pedido con ese codigo'); setLoading(false); return }
     setPedido(data)
@@ -35,11 +45,13 @@ export default function SeguimientoPedido() {
     setLoading(false)
   }
 
+  const buscar = () => buscarConCodigo(codigo)
+
   const c = pedido ? colorEstado(pedido.estado) : null
-  const pasoActual = pedido ? pasos.indexOf(pedido.estado) : -1
+  const pasoActual = pedido ? pasos.findIndex(p => p.key === pedido.estado) : -1
 
   return (
-    <div className="min-h-screen bg-gray-50" style={{ background: 'radial-gradient(ellipse at top, #7f1d1d10 0%, #f9fafb 50%)' }}>
+    <div className="min-h-screen bg-gray-50">
       <div className="bg-red-700 px-4 py-4 flex items-center justify-between shadow">
         <button onClick={() => navigate('/')} className="flex items-center gap-3">
           <img src="/logo.png" className="h-10 w-auto" />
@@ -50,7 +62,7 @@ export default function SeguimientoPedido() {
       <div className="max-w-lg mx-auto px-4 py-10">
         <div className="text-center mb-8">
           <h1 className="text-2xl font-extrabold text-gray-800">Seguimiento de Pedido</h1>
-          <p className="text-gray-500 text-sm mt-1">Ingresa el codigo de tu pedido</p>
+          <p className="text-gray-500 text-sm mt-1">Consulta el estado de tu domicilio</p>
         </div>
         <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-5 mb-6">
           <div className="flex gap-3">
@@ -60,51 +72,56 @@ export default function SeguimientoPedido() {
               value={codigo}
               onChange={(e) => setCodigo(e.target.value.toUpperCase())}
               onKeyDown={(e) => e.key === 'Enter' && buscar()}
-              className="flex-1 border border-gray-200 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:border-red-700 font-mono"
+              className="flex-1 border border-gray-200 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:border-red-700 font-mono tracking-widest"
             />
-            <button onClick={buscar} disabled={loading} className="bg-red-700 text-white font-bold px-5 py-2.5 rounded-xl hover:bg-red-600 transition disabled:opacity-50 text-sm">
+            <button onClick={buscar} disabled={loading} className="bg-red-700 text-white font-bold px-5 py-2.5 rounded-xl hover:bg-red-600 transition disabled:opacity-50 text-sm flex-shrink-0">
               {loading ? '...' : 'Buscar'}
             </button>
           </div>
           {error && <p className="text-red-600 text-xs mt-3 text-center">{error}</p>}
         </div>
-        {pedido && (
+        {pedido && c && (
           <div className="flex flex-col gap-4">
             <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-5">
-              <div className="flex items-center justify-between mb-4">
+              <div className="flex items-center justify-between mb-5">
                 <div>
-                  <p className="text-gray-400 text-xs">Codigo</p>
-                  <p className="font-extrabold text-gray-800 font-mono">#{pedido.id.slice(0, 8).toUpperCase()}</p>
+                  <p className="text-gray-400 text-xs">Codigo de pedido</p>
+                  <p className="font-extrabold text-gray-800 font-mono tracking-widest">#{pedido.id.slice(0, 8).toUpperCase()}</p>
                 </div>
                 <span className={'text-xs font-bold px-3 py-1.5 rounded-full ' + c.bg + ' ' + c.text}>{c.label}</span>
               </div>
               {pedido.estado !== 'cancelado' && (
-                <div className="flex items-center gap-0 mb-4">
-                  {pasos.map((paso, i) => (
-                    <div key={paso} className="flex items-center flex-1">
-                      <div className={'w-6 h-6 rounded-full flex items-center justify-center flex-shrink-0 text-xs font-bold ' + (i <= pasoActual ? 'bg-red-700 text-white' : 'bg-gray-200 text-gray-400')}>
-                        {i < pasoActual ? '✓' : i + 1}
+                <div className="mb-5">
+                  <div className="flex items-center">
+                    {pasos.map((paso, i) => (
+                      <div key={paso.key} className="flex items-center flex-1">
+                        <div className="flex flex-col items-center">
+                          <div className={'w-7 h-7 rounded-full flex items-center justify-center flex-shrink-0 text-xs font-bold transition-all ' + (i <= pasoActual ? 'bg-red-700 text-white' : 'bg-gray-100 text-gray-400')}>
+                            {i < pasoActual ? '✓' : i + 1}
+                          </div>
+                          <p className={'text-xs mt-1 font-semibold ' + (i <= pasoActual ? 'text-red-700' : 'text-gray-300')}>{paso.label}</p>
+                        </div>
+                        {i < pasos.length - 1 && <div className={'flex-1 h-0.5 mb-4 ' + (i < pasoActual ? 'bg-red-700' : 'bg-gray-100')} />}
                       </div>
-                      {i < pasos.length - 1 && <div className={'flex-1 h-0.5 ' + (i < pasoActual ? 'bg-red-700' : 'bg-gray-200')} />}
-                    </div>
-                  ))}
+                    ))}
+                  </div>
                 </div>
               )}
-              <div className="grid grid-cols-2 gap-3 text-xs">
+              <div className="grid grid-cols-2 gap-3 text-xs border-t border-gray-50 pt-4">
                 <div><p className="text-gray-400">Cliente</p><p className="font-semibold text-gray-800">{pedido.nombre_cliente}</p></div>
                 <div><p className="text-gray-400">Telefono</p><p className="font-semibold text-gray-800">{pedido.telefono}</p></div>
-                <div className="col-span-2"><p className="text-gray-400">Direccion</p><p className="font-semibold text-gray-800">{pedido.direccion}{pedido.barrio ? ', ' + pedido.barrio : ''}</p></div>
+                <div className="col-span-2"><p className="text-gray-400">Direccion</p><p className="font-semibold text-gray-800">{pedido.direccion}{pedido.barrio ? ', Barrio ' + pedido.barrio : ''}</p></div>
                 <div><p className="text-gray-400">Fecha</p><p className="font-semibold text-gray-800">{new Date(pedido.created_at).toLocaleDateString('es-CO')}</p></div>
                 <div><p className="text-gray-400">Total</p><p className="font-extrabold text-red-700">{'$'}{pedido.total.toLocaleString('es-CO')}</p></div>
               </div>
             </div>
             <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-5">
-              <h3 className="font-extrabold text-gray-800 text-sm mb-3">Productos</h3>
+              <h3 className="font-extrabold text-gray-800 text-sm mb-3">Productos del pedido</h3>
               <div className="flex flex-col gap-2">
                 {items.map((item: any) => (
-                  <div key={item.id} className="flex justify-between text-sm text-gray-600">
+                  <div key={item.id} className="flex justify-between text-xs text-gray-600 py-1 border-b border-gray-50 last:border-0">
                     <span>{item.productos?.nombre} x{item.cantidad}</span>
-                    <span className="font-bold">{'$'}{(item.precio_unitario * item.cantidad).toLocaleString('es-CO')}</span>
+                    <span className="font-bold text-gray-800">{'$'}{(item.precio_unitario * item.cantidad).toLocaleString('es-CO')}</span>
                   </div>
                 ))}
               </div>
