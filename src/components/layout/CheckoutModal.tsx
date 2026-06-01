@@ -62,7 +62,7 @@ export default function CheckoutModal({ open, onClose }: Props) {
               <p className="text-2xl font-extrabold text-red-700 tracking-widest font-mono">#{pedidoId}</p>
               <p className="text-gray-400 text-xs mt-2 font-mono break-all">{pedidoUUID}</p>
               <button onClick={copiarCodigo} className="mt-2 text-xs text-gray-500 hover:text-red-700 transition flex items-center gap-1 mx-auto">
-                {copiado ? '✓ Codigo copiado' : 'Copiar codigo completo'}
+                {copiado ? 'Copiado!' : 'Copiar codigo completo'}
               </button>
             </div>
             <p className="text-gray-400 text-xs">Usa ese codigo en Seguir pedido para ver el estado de tu domicilio en tiempo real</p>
