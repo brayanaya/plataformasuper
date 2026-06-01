@@ -31,11 +31,7 @@ export default function SeguirPedidoModal({ open, onClose }: Props) {
   const [error, setError] = useState('')
 
   useEffect(() => {
-    if (!open) {
-      setCodigo('')
-      setPedido(null)
-      setError('')
-    }
+    if (!open) { setCodigo(''); setPedido(null); setError('') }
   }, [open])
 
   useEffect(() => {
@@ -59,10 +55,12 @@ export default function SeguirPedidoModal({ open, onClose }: Props) {
     setLoading(true)
     setError('')
     setPedido(null)
+    const termino = codigo.trim().replace('#', '').toLowerCase()
     const { data, error } = await supabase
       .from('pedidos')
       .select('*')
-      .eq('id', codigo.trim())
+      .ilike('id', termino + '%')
+      .limit(1)
       .single()
     if (error || !data) {
       setError('No encontramos un pedido con ese codigo. Verificalo e intentalo de nuevo.')
@@ -94,7 +92,7 @@ export default function SeguirPedidoModal({ open, onClose }: Props) {
               value={codigo}
               onChange={e => setCodigo(e.target.value)}
               onKeyDown={e => e.key === 'Enter' && buscarPedido()}
-              placeholder='Pega aqui tu codigo de pedido...'
+              placeholder='Ej: #E881BF26'
               className='flex-1 border border-gray-200 rounded-full px-4 py-2 text-sm outline-none focus:border-red-700 transition'
             />
             <button
