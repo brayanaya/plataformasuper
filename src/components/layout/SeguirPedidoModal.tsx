@@ -55,17 +55,20 @@ export default function SeguirPedidoModal({ open, onClose }: Props) {
     setLoading(true)
     setError('')
     setPedido(null)
-    const termino = codigo.trim().replace('#', '').toLowerCase()
+    const termino = codigo.trim().replace('#', '').toUpperCase()
     const { data, error } = await supabase
       .from('pedidos')
       .select('*')
-      .ilike('id', termino + '%')
-      .limit(1)
-      .single()
     if (error || !data) {
+      setError('Error al buscar. Intentalo de nuevo.')
+      setLoading(false)
+      return
+    }
+    const encontrado = data.find(p => p.id.slice(0, 8).toUpperCase() === termino)
+    if (!encontrado) {
       setError('No encontramos un pedido con ese codigo. Verificalo e intentalo de nuevo.')
     } else {
-      setPedido(data)
+      setPedido(encontrado)
     }
     setLoading(false)
   }
@@ -84,7 +87,6 @@ export default function SeguirPedidoModal({ open, onClose }: Props) {
           </div>
           <button onClick={onClose} className='text-white text-2xl font-bold hover:text-yellow-400 transition'>x</button>
         </div>
-
         <div className='p-6'>
           <div className='flex gap-2 mb-6'>
             <input
@@ -92,7 +94,7 @@ export default function SeguirPedidoModal({ open, onClose }: Props) {
               value={codigo}
               onChange={e => setCodigo(e.target.value)}
               onKeyDown={e => e.key === 'Enter' && buscarPedido()}
-              placeholder='Ej: #E881BF26'
+              placeholder='Ej: #1FDABF37'
               className='flex-1 border border-gray-200 rounded-full px-4 py-2 text-sm outline-none focus:border-red-700 transition'
             />
             <button
@@ -103,13 +105,11 @@ export default function SeguirPedidoModal({ open, onClose }: Props) {
               {loading ? '...' : 'Buscar'}
             </button>
           </div>
-
           {error && (
             <div className='bg-red-50 border border-red-200 rounded-xl px-4 py-3 text-red-700 text-sm text-center mb-4'>
               {error}
             </div>
           )}
-
           {pedido && (
             <div>
               <div className='bg-gray-50 rounded-xl p-4 mb-6'>
@@ -117,7 +117,6 @@ export default function SeguirPedidoModal({ open, onClose }: Props) {
                 <p className='text-gray-500 text-sm'>{pedido.direccion}{pedido.barrio ? ', ' + pedido.barrio : ''}</p>
                 <p className='text-red-700 font-bold mt-1'></p>
               </div>
-
               <div className='flex flex-col gap-4'>
                 {ESTADOS.map((estado, i) => {
                   const estadoActual = getEstadoIndex(pedido.estado)
