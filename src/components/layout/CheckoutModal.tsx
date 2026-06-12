@@ -19,13 +19,35 @@ export default function CheckoutModal({ open, onClose }: Props) {
   const [error, setError] = useState('')
   const [copiado, setCopiado] = useState(false)
 
+  const validar = (): string => {
+    const nombreTrim = nombre.trim()
+    const telefonoTrim = telefono.trim()
+    const direccionTrim = direccion.trim()
+
+    if (!nombreTrim) return 'Ingresa tu nombre completo'
+    if (nombreTrim.length < 3) return 'El nombre debe tener al menos 3 caracteres'
+    if (!/^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$/.test(nombreTrim)) return 'El nombre solo puede contener letras'
+
+    if (!telefonoTrim) return 'Ingresa tu numero de telefono'
+    if (!/^[0-9]{10}$/.test(telefonoTrim)) return 'El telefono debe tener exactamente 10 digitos'
+    if (!/^(3[0-9]{9})$/.test(telefonoTrim)) return 'Ingresa un numero de celular colombiano valido (debe iniciar con 3)'
+
+    if (!direccionTrim) return 'Ingresa tu direccion'
+    if (!/^(cr|cra|carrera|cl|cll|calle|av|avenida|diagonal|dg|transversal|tv)\s*\.?\s*\d/i.test(direccionTrim)) {
+      return 'La direccion debe iniciar con Cra, Calle, Av, Diagonal o Transversal seguido del numero'
+    }
+    if (direccionTrim.length < 8) return 'Ingresa una direccion mas completa'
+
+    return ''
+  }
+
   const handlePedido = async () => {
-    if (!nombre || !telefono || !direccion) return setError('Completa nombre, telefono y direccion')
-    if (telefono.length < 7) return setError('Telefono invalido')
+    const mensajeError = validar()
+    if (mensajeError) return setError(mensajeError)
     setLoading(true); setError('')
     const totalVal = total()
     const { data: pedido, error: pedidoError } = await supabase.from('pedidos').insert({
-      nombre_cliente: nombre, telefono, direccion, barrio, total: totalVal, estado: 'pendiente'
+      nombre_cliente: nombre.trim(), telefono: telefono.trim(), direccion: direccion.trim(), barrio: barrio.trim(), total: totalVal, estado: 'pendiente'
     }).select().single()
     if (pedidoError || !pedido) { setError('Error al registrar, intenta de nuevo'); setLoading(false); return }
     await supabase.from('pedido_items').insert(items.map((i) => ({ pedido_id: pedido.id, producto_id: i.id, cantidad: i.cantidad, precio_unitario: i.precio })))
@@ -88,8 +110,8 @@ export default function CheckoutModal({ open, onClose }: Props) {
               </div>
               {error && <p className="text-red-600 text-xs text-center bg-red-50 rounded-xl p-2">{error}</p>}
               <input type="text" placeholder="Tu nombre completo *" value={nombre} onChange={(e) => setNombre(e.target.value)} className="border border-gray-200 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:border-red-700" />
-              <input type="tel" placeholder="Tu telefono *" value={telefono} onChange={(e) => setTelefono(e.target.value)} className="border border-gray-200 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:border-red-700" />
-              <input type="text" placeholder="Tu direccion *" value={direccion} onChange={(e) => setDireccion(e.target.value)} className="border border-gray-200 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:border-red-700" />
+              <input type="tel" placeholder="Celular colombiano * (10 digitos)" value={telefono} onChange={(e) => setTelefono(e.target.value)} className="border border-gray-200 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:border-red-700" />
+              <input type="text" placeholder="Direccion * (Ej: Cra 26 #10-15)" value={direccion} onChange={(e) => setDireccion(e.target.value)} className="border border-gray-200 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:border-red-700" />
               <input type="text" placeholder="Tu barrio (opcional)" value={barrio} onChange={(e) => setBarrio(e.target.value)} className="border border-gray-200 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:border-red-700" />
               <textarea placeholder="Notas adicionales (opcional)" value={notas} onChange={(e) => setNotas(e.target.value)} rows={2} className="border border-gray-200 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:border-red-700 resize-none" />
               <button onClick={handlePedido} disabled={loading} className="bg-red-700 text-white font-bold py-3 rounded-xl hover:bg-red-600 transition disabled:opacity-50">
